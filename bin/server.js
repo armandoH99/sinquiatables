@@ -27,22 +27,21 @@ let intervalId = null;
 
 const recursiveInterval = (
   skt = null,
-  intervalTime = faker.random.numeric(4)
+  // intervalTime = faker.random.numeric(4)
+  intervalTime = faker.datatype.number({ min: 500, max: 9999 })
 ) => {
-  intervalId = setInterval(() => {
-    intervalId && clearInterval(intervalId);
+  skt.emit("market-data", {
+    account_name: faker.finance.accountName(),
+    transaction_type: faker.finance.transactionType(),
+    transaction_description: faker.finance.transactionDescription(),
+    credit_card_number: faker.finance.creditCardNumber(),
+    credit_card_issuer: faker.finance.creditCardIssuer(),
+    credit_card_cvv: faker.finance.creditCardCVV(),
+    amount: faker.finance.amount(),
+    currency_name: faker.finance.currencyName(),
+  });
 
-    skt.emit("market-data", {
-      account_name: faker.finance.accountName(),
-      transaction_type: faker.finance.transactionType(),
-      transaction_description: faker.finance.transactionDescription(),
-      credit_card_number: faker.finance.creditCardNumber(),
-      credit_card_issuer: faker.finance.creditCardIssuer(),
-      credit_card_cvv: faker.finance.creditCardCVV(),
-      amount: faker.finance.amount(),
-      currency_name: faker.finance.currencyName(),
-    });
-
+  intervalId = setTimeout(() => {
     recursiveInterval(skt);
   }, intervalTime);
 };
