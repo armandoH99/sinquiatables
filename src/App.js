@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Typography, Container } from "@mui/material";
+import { Typography } from "@mui/material";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { BoxScreen } from './globalStyles'
+import { BoxScreen } from "./globalStyles";
 
 import Table from "./pages/table";
 import User from "./pages/user";
@@ -32,16 +32,25 @@ const App = () => {
   }, []);
 
   if (!client) {
-    return <Typography>There's no client connected at moment</Typography>;
+    return (
+      <Typography>
+        There's no client connected at moment, start the server and reload
+      </Typography>
+    );
   }
 
   return (
-    <BoxScreen maxWidth >
-      {/* <Typography>Client Connected: {client?.first_name}</Typography> */}
+    <BoxScreen maxWidth="lg">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/table" />} />
-          <Route path="/table" element={<Table inputData={inputData} clientName={client?.first_name}/>} />
+          <Route path="*" element={<Navigate to="/table" />} />
+          <Route
+            path="/table"
+            element={
+              <Table inputData={inputData} clientName={client?.first_name} />
+            }
+          />
           <Route path="/user" element={<User client={client} />} />
         </Routes>
       </BrowserRouter>

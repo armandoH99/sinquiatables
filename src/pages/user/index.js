@@ -1,7 +1,6 @@
-import { Box, Button } from "@mui/material";
+import { Button, CardContent, CardHeader, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
-
+import { ClienBox, IdText, AvatarColored, CardBottomText } from "./styles";
 
 const User = ({ client }) => {
   const navigate = useNavigate();
@@ -13,21 +12,23 @@ const User = ({ client }) => {
   return (
     <>
       <Button variant="contained" size="small" onClick={handleTableClick}>
-       Go to table
+        Go to main table
       </Button>
-      <Box
-        sx={{
-          width: 300,
-          height: 200,
-          border: "1px solid #ccc",
-          padding: 16,
-        }}
-      >
-        <Box>Client ID: {client.client_id}</Box>
-        <Box>First Name: {client.first_name}</Box>
-        <Box>Job: {client.job}</Box>
-        <Box>Job Descriptor: {client.job_descriptor}</Box>
-      </Box>
+      <ClienBox>
+        <CardHeader
+          avatar={<AvatarColored>{client.first_name.charAt(0)}</AvatarColored>}
+          title={<Typography variant="h5"> {client.first_name}</Typography>}
+          subheader={client.job}
+        />
+        <CardContent>
+          <Typography>Job Descriptor: {client.job_descriptor}</Typography>
+        </CardContent>
+        <CardBottomText>
+          <IdText color="text.secondary" gutterBottom>
+            <strong>ID:</strong> {client.client_id}
+          </IdText>
+        </CardBottomText>
+      </ClienBox>
     </>
   );
 };

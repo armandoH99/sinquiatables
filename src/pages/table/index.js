@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import {
-  TextField,
-  Button,
-  useMediaQuery,
-  useTheme,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
-import { TableBoxContainer } from "./styles";
+import { Button, IconButton, InputAdornment, Tooltip } from "@mui/material";
+import { TableBoxContainer, SearchBox } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { Search } from "@mui/icons-material";
 
@@ -52,7 +45,6 @@ const Table = ({ inputData, clientName }) => {
     const { value } = event.target;
     setFilterValue(value);
   };
-  const isMdDown = useMediaQuery(useTheme().breakpoints.down("md"));
 
   const handleProfileClick = () => {
     navigate("/user");
@@ -60,22 +52,25 @@ const Table = ({ inputData, clientName }) => {
 
   return (
     <>
-      <Button variant="contained" size="small" onClick={handleProfileClick}>
-        {clientName}'s Profile
-      </Button>
+      <Tooltip title={`Navigate to ${clientName}'s Profile`}>
+        <Button variant="contained" size="small" onClick={handleProfileClick}>
+          {clientName}'s Profile
+        </Button>
+      </Tooltip>
 
       <TableBoxContainer>
-        <TextField
+        <SearchBox
           label="Filter"
           value={filterValue}
           onChange={handleFilter}
-          style={{ marginBottom: 16 }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton>
-                  <Search />
-                </IconButton>
+                <Tooltip title="Search">
+                  <IconButton>
+                    <Search />
+                  </IconButton>
+                </Tooltip>
               </InputAdornment>
             ),
           }}
@@ -90,8 +85,8 @@ const Table = ({ inputData, clientName }) => {
               color: "#012169",
             },
           }}
-          initialState={{
-            pagination: { paginationModel: { pageSize: 25 } },
+          localeText={{
+            noRowsLabel: "No user Data, yet",
           }}
         />
       </TableBoxContainer>
